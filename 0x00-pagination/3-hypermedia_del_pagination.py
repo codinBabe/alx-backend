@@ -41,16 +41,22 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
         """Returns a dictionary with hypermedia links"""
-        if index is None:
-            index = 0
-        assert index >= 0
-        dataset = self.indexed_dataset()
-        start = index
-        end = min(index + page_size, len(dataset))
-        data = dataset[start:end]
+        assert type(index) is int and type(page_size) is int
+        assert 0 <= index < len(self.indexed_dataset())
+
+        data = []
+        next_index = index + page_size
+
+        for i in range(index, next_index):
+            if self.indexed_dataset().get(i):
+                data.append(self.indexed_dataset()[i])
+            else:
+                i += 1
+                next_index += 1
+
         return {
-            "index": index,
-            "next_index": start + page_size,
-            "page_size": page_size,
-            "data": data
+            'data': data,
+            'index': index,
+            'next_index': next_index,
+            'page_size': page_size
         }

@@ -2,10 +2,10 @@
 """A hypermedia pagination module"""
 
 
-index_range = __import__('0-simple_helper_function').index_range
 import csv
 import math
 from typing import List, Dict
+index_range = __import__('0-simple_helper_function').index_range
 
 
 class Server:
@@ -29,15 +29,15 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         """Returns a list of pages in the dataset"""
-        assert type(page) == int and type(page_size) == int, "page and page_size must be an integer"
-        assert page > 0 and page_size > 0, "page and page_size must be greater than 0"
+        assert type(page) == int and type(page_size) == int
+        assert page > 0 and page_size > 0
         dataset = self.dataset()
         start, end = index_range(page, page_size)
         if start >= len(dataset):
             return []
         return dataset[start:end]
-    
-    def get_hyper(self, page:int = 1, page_size:int = 10) -> Dict:
+
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         """Returns a dictionary with hypermedia links"""
         data = self.get_page(page, page_size)
         total_pages = math.ceil(len(self.dataset()) / page_size)
@@ -50,6 +50,4 @@ class Server:
             "next_page": next_page,
             "prev_page": prev_page,
             "total_pages": total_pages,
-            
-            
         }

@@ -22,7 +22,7 @@ class LIFOCache(BaseCaching):
                 self.cache_data.pop(last_in)
         self.cache_data[key] = item
         self.cache_data[key] = self.cache_data.pop(key)
-    
+
     def get(self, key):
         """Retrieve data from cache based on the key"""
         if key is None or key not in self.cache_data:

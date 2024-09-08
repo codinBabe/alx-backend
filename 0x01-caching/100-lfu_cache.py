@@ -17,7 +17,8 @@ class LFUCache(BaseCaching):
         """Add an item in the cache"""
         if key is None or item is None:
             return
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS and key not in self.cache_data:
+        if len(self.cache_data
+               ) >= BaseCaching.MAX_ITEMS and key not in self.cache_data:
             lfu_key = self.lfu.pop(0)
             del self.cache_data[lfu_key]
             print("DISCARD: {}".format(lfu_key))

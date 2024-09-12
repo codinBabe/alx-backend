@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""A Basic Flask app"""
 from flask import Flask, render_template, request
 from flask_babel import Babel
 
@@ -6,7 +7,7 @@ from flask_babel import Babel
 class Config:
     """A language class representation"""
     LANGUAGES = ['en', 'fr']
-    BABEL_DEFAULT_LANG = "en"
+    BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
 
@@ -20,6 +21,7 @@ babel = Babel(app)
 def get_locale() -> str:
     """get the web page locale"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
+
 @app.route('/')
 def home() -> str:
     """The home route"""

@@ -32,26 +32,24 @@ def get_user() -> Union[Dict, None]:
     return None
 
 
-@app.before_request
-def before_request() -> None:
-    """Perform some routine before each request"""
-    user = get_user()
-    g.user = user
-
-
 @babel.localeselector
 def get_locale() -> str:
     """get the web page locale"""
     locale = request.args.get('locale', '')
     if locale in app.config["LANGUAGES"]:
         return locale
+    if g.user and g.user['locale'] in app.config['LANGUAGES']:
+        return g.user['locale']
+    headers = request.headers.get('locale','')
+    if headers in app.config['LANGUAGES']:
+        return headers
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 @app.route('/')
 def home() -> str:
     """The home route"""
-    return render_template('5-index.html')
+    return render_template('6-index.html')
 
 
 if __name__ == '__main__':

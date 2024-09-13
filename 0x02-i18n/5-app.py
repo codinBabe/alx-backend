@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """A Basic Flask app"""
-from flask import Flask, render_template, request
-from flask_babel import Babel, g
+from flask import Flask, render_template, request, g
+from flask_babel import Babel
 from typing import Union, Dict
 
 
@@ -24,6 +24,14 @@ users = {
 }
 
 
+def get_user() -> Union[Dict, None]:
+    """return user dictionary"""
+    login_as = request.args.get('login_as')
+    if login_as:
+        return users.get(int(login_as))
+    return None
+
+
 @app.before_request
 def before_request() -> None:
     """Perform some routine before each request"""
@@ -43,14 +51,6 @@ def get_locale() -> str:
         if query_table['locale'] in app.config["LANGUAGES"]:
             return query_table['locale']
     return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
-def get_user() -> Union[Dict, None]:
-    """return user dictionary"""
-    login_as = request.args.get('login_as')
-    if login_as:
-        return users.get(int(login_as))
-    return None
 
 
 @app.route('/')

@@ -25,6 +25,11 @@ def get_locale() -> str:
         lambda x: (x if '=' in x else '{}='.format(x)).split('='),
         queries,
     ))
+    queries = request.query_string.decode('utf-8').split('&')
+    query_table = dict(map(
+        lambda x: (x if '=' in x else '{}='.format(x)).split('='),
+        queries,
+    ))
     if 'locale' in query_table:
         if query_table['locale'] in app.config["LANGUAGES"]:
             return query_table['locale']
@@ -34,7 +39,7 @@ def get_locale() -> str:
 @app.route('/')
 def home() -> str:
     """The home route"""
-    return render_template('3-index.html')
+    return render_template('4-index.html')
 
 
 if __name__ == '__main__':

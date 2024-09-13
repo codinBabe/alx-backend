@@ -63,7 +63,7 @@ def get_timzone() -> str:
 @app.route('/')
 def home() -> str:
     """The home route"""
-    return render_template('7-index.html')
+    return render_template('6-index.html')
 
 
 if __name__ == '__main__':
